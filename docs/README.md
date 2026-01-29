@@ -76,17 +76,19 @@ This repo serves as:
 
 ### Dataset layout
 
+```
 HDD-pool/
-├── media
-│   ├── movies
-│   └── tv
-├── downloads
-│   ├── complete
-│   └── incomplete
-└── backups
-    ├── proxmox
-    ├── media-vm
-    └── infra
+├── media/
+│   ├── movies/
+│   └── tv/
+├── downloads/
+│   ├── complete/
+│   └── incomplete/
+└── backups/
+    ├── proxmox/
+    ├── media-vm/
+    └── infra/
+```
 ---
 
 ## 🌐 Networking Design
