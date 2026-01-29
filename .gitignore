@@ -1,0 +1,15 @@
+# secrets
+.env
+**/*.key
+**/*.pem
+
+# app/runtime data (never commit)
+appdata/
+downloads/
+media/
+
+# editor noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
