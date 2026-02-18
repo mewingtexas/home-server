@@ -130,9 +130,7 @@ This repository evolves over time. Problems are documented as they occur, root c
 
 ## Documentation Structure
 
-- `docs/BUILD_LOG.md` — Chronological progress
-- `docs/ISSUES.md` — Problems, causes, and fixes
-- `docs/TODAY.md` — Daily planning and focus
+- `docs/BUILD_LOG.md` — Chronological progression
 
 ---
 
