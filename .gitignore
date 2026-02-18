@@ -13,3 +13,9 @@ media/
 .idea/
 .DS_Store
 Thumbs.db
+
+# terraform secrets
+terraform.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
