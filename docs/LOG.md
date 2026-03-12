@@ -27,3 +27,5 @@
   - Clarified outputs: expose post-provision attributes (IPs, resources) as live documentation.
 - Next: provision LXCs for Pi-hole, Nginx, and Grafana when ready.
 
+
+

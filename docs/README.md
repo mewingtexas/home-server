@@ -37,9 +37,10 @@ This repo serves as:
 **Purpose:** Core network and access services, lightweight and stable.
 
 **Infra Stack:**
-- Grafana Monitoring
+- Promethius
 - PiHole DNS
-- Nginx Reverse Proxy
+- Nginx Reverse Proxy (future use when services scale in quantity)
+- Grafana (future use for visual dashboards from promethius)
 
 ---
 
@@ -115,7 +116,7 @@ Scripts are minimal, focused on Media VM.
 ## Infrastructure as Code
 
 ### Terraform
-Infrastructure provisioning and management is handled via Terraform. Configurations are located in `iac/terraform/`, including main.tf, variables.tf, and terraform.tfvars. This ensures reproducible and version-controlled infrastructure setup.
+Infrastructure provisioning and management is handled via Terraform. Configurations are located in `iac/terraform/`, including main.tf, variables.tf and providers.tf. This ensures reproducible and version-controlled infrastructure setup.
 
 ### Ansible
 Planned for configuration management and automation of server setups, playbooks, and roles. Will be added to `iac/ansible/` for automating software installation, configuration, and maintenance tasks.
