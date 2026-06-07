@@ -17,5 +17,6 @@ Thumbs.db
 # terraform secrets
 terraform.tfvars
 *.tfstate
-*.tfstate.*
+*.tfstate.backup
 .terraform/
+terraform.tfvars
