@@ -1,0 +1,17 @@
+---
+- name: Homeserver System Maintenance and Updates
+  hosts: all_containers
+  gather_facts: true
+
+  tasks:
+    - name: Run apt update and upgrade all packages safely
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: dist
+        cache_valid_time: 3600 # only download index > 1hr
+
+    - name: Remove reduundant / unneeded packages for cleanup
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
+

@@ -1,0 +1,15 @@
+all_containers:
+  children:
+    media_stack:
+      hosts:
+        download-box:
+          ansible_host: 192.168.50.30
+        jellyfin:
+          ansible_host: 192.168.50.31
+    network_services:
+      hosts:
+        pihole:
+          ansible_host: 192.168.60.30
+  vars:
+    ansible_user: root
+    ansible_python_interpreter: /usr/bin/python3.11

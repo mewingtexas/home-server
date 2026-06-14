@@ -13,6 +13,9 @@ media/
 .idea/
 .DS_Store
 Thumbs.db
+*.log
+.ansible_cache/
+*.retry
 
 # terraform secrets
 terraform.tfvars
@@ -20,3 +23,8 @@ terraform.tfvars
 *.tfstate.backup
 .terraform/
 terraform.tfvars
+
+# Secret ignores
+*.secret
+*.env
+
