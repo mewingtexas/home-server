@@ -1,5 +1,5 @@
 # ==========================================
-# INFRASTRUCTURE STACK: CORE SERVICES (VLAN 60)
+# Networking / Infrastructure
 # ==========================================
 
 resource "proxmox_virtual_environment_container" "pihole" {
@@ -107,16 +107,17 @@ resource "proxmox_virtual_environment_container" "prometheus" {
 }
 
 # ==========================================
-# 1. THE DOWNLOAD STACK LXC
+# 1. Download & Automation 
 # Includes: Gluetun, qBittorrent, Sonarr, Radarr, Prowlarr
 # ==========================================
 
 resource "proxmox_virtual_environment_container" "DB" {
+
   node_name    = var.proxmox_node
   vm_id        = 100 
   description  = "Download & Automation Stack (Gluetun, qBittorrent, Arrs)"
   started      = true
-  unprivileged = false # Privileged for frictionless host bind mounts
+  unprivileged = true 
 
   initialization {
     hostname = "download-box"
@@ -163,22 +164,16 @@ resource "proxmox_virtual_environment_container" "DB" {
     keyctl  = true
   }
 
-  # MOUNT 1: The External SSD (Fast I/O for Incomplete Torrents)
+  # download stack needs entire storage directory for downloads and media
   mount_point {
-    volume = "/mnt/externalssd/incomplete"
-    path   = "/data/incomplete"
-  }
-
-  # MOUNT 2: Main XFS Hard Drive (Moves completed files here)
-  mount_point {
-    volume = "/mnt/storage/data"
-    path   = "/data/media"
+    volume = "/mnt/storage"
+    path   = "/data"
   }
 }
 
 # ==========================================
-# 2. STREAMING SERVER LXC
-# Dedicated to media streaming and transcoding
+# 2. Streaming
+# Jellyfin lxc for media streaming
 # ==========================================
 
 resource "proxmox_virtual_environment_container" "jellyfin_server" {
@@ -186,7 +181,7 @@ resource "proxmox_virtual_environment_container" "jellyfin_server" {
   vm_id        = 101
   description  = "Dedicated Jellyfin Media Server"
   started      = true
-  unprivileged = false 
+  unprivileged = true
 
   initialization {
     hostname = "jellyfin"
@@ -233,9 +228,10 @@ resource "proxmox_virtual_environment_container" "jellyfin_server" {
     keyctl  = true
   }
 
-  # JELLYFIN ONLY NEEDS THE COMPLETED MEDIA DRIVE
+  # jellyfin only needs media directory
   mount_point {
-    volume = "/mnt/storage/data" # Maps directly to XFS drive
-    path   = "/data/media"        # Where Jellyfin reads movies/TV
+    volume = "/mnt/storage/media"  
+    path   = "/data/media"        
+    read_only = true
   }
 }
