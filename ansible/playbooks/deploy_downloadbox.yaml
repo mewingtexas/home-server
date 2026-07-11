@@ -1,0 +1,7 @@
+---
+- name: Deploy download-box media download stack
+  hosts: download-box
+  gather_facts: true
+
+  roles:
+    - role: download_box

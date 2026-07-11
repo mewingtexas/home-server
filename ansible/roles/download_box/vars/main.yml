@@ -1,0 +1,27 @@
+---
+# Static architectural constants for the download_box role.
+# These describe how the stack is built, not how a user might tune it,
+# so they live in vars/ rather than defaults/.
+
+# Official image names
+gluetun_image: qmcgaw/gluetun
+qbittorrent_image: lscr.io/linuxserver/qbittorrent
+prowlarr_image: lscr.io/linuxserver/prowlarr
+sonarr_image: lscr.io/linuxserver/sonarr
+radarr_image: lscr.io/linuxserver/radarr
+
+# Internal container mount targets
+container_config_path: /config
+container_data_path: /data
+
+# Docker apt repo / package constants
+docker_gpg_key_url: "https://download.docker.com/linux/debian/gpg"
+docker_gpg_key_path: /etc/apt/keyrings/docker.asc
+docker_apt_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+docker_apt_repo: "deb [arch={{ docker_apt_arch }} signed-by={{ docker_gpg_key_path }}] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+
+docker_apt_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin

@@ -1,0 +1,7 @@
+---
+# PLACEHOLDER FILE — do not commit real secrets in plaintext.
+# Once the real key is set below, encrypt this file with:
+#   ansible-vault encrypt group_vars/media_stack/vault.yml
+#
+# ProtonVPN WireGuard private key used by the gluetun service on download-box.
+vault_wireguard_private_key: "CHANGEME_SET_YOUR_PROTONVPN_WIREGUARD_PRIVATE_KEY"

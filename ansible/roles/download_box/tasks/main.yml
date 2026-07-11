@@ -1,0 +1,6 @@
+---
+- name: Install Docker Engine and dependencies
+  ansible.builtin.include_tasks: install_docker.yml
+
+- name: Deploy media download stack containers
+  ansible.builtin.include_tasks: deploy_apps.yml

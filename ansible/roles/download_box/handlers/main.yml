@@ -1,0 +1,5 @@
+---
+- name: Restart Media Stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ download_box_appdata }}"
+    state: restarted

@@ -1,0 +1,78 @@
+services:
+  gluetun:
+    image: "{{ gluetun_image }}:{{ gluetun_image_tag }}"
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER={{ vpn_service_provider }}
+      - VPN_TYPE={{ vpn_type }}
+      - WIREGUARD_PRIVATE_KEY={{ vault_wireguard_private_key }}
+      - SERVER_COUNTRIES={{ vpn_server_countries }}
+      - FIREWALL_OUTBOUND_SUBNETS={{ vpn_firewall_outbound_subnets }}
+      - TZ={{ download_box_timezone }}
+    ports:
+      # qbittorrent shares this network namespace, so its WebUI port is
+      # published here instead of on the qbittorrent service.
+      - "{{ gluetun_qbittorrent_webui_port }}:8080"
+    volumes:
+      - "{{ download_box_appdata }}/gluetun:{{ container_config_path }}"
+    restart: unless-stopped
+
+  qbittorrent:
+    image: "{{ qbittorrent_image }}:{{ qbittorrent_image_tag }}"
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      - PUID={{ download_box_puid }}
+      - PGID={{ download_box_pgid }}
+      - TZ={{ download_box_timezone }}
+    volumes:
+      - "{{ download_box_appdata }}/qbittorrent:{{ container_config_path }}"
+      - "{{ data_root }}:{{ container_data_path }}"
+    restart: unless-stopped
+
+  prowlarr:
+    image: "{{ prowlarr_image }}:{{ prowlarr_image_tag }}"
+    container_name: prowlarr
+    environment:
+      - PUID={{ download_box_puid }}
+      - PGID={{ download_box_pgid }}
+      - TZ={{ download_box_timezone }}
+    ports:
+      - "{{ prowlarr_port }}:9696"
+    volumes:
+      - "{{ download_box_appdata }}/prowlarr:{{ container_config_path }}"
+    restart: unless-stopped
+
+  sonarr:
+    image: "{{ sonarr_image }}:{{ sonarr_image_tag }}"
+    container_name: sonarr
+    environment:
+      - PUID={{ download_box_puid }}
+      - PGID={{ download_box_pgid }}
+      - TZ={{ download_box_timezone }}
+    ports:
+      - "{{ sonarr_port }}:8989"
+    volumes:
+      - "{{ download_box_appdata }}/sonarr:{{ container_config_path }}"
+      - "{{ data_root }}:{{ container_data_path }}"
+    restart: unless-stopped
+
+  radarr:
+    image: "{{ radarr_image }}:{{ radarr_image_tag }}"
+    container_name: radarr
+    environment:
+      - PUID={{ download_box_puid }}
+      - PGID={{ download_box_pgid }}
+      - TZ={{ download_box_timezone }}
+    ports:
+      - "{{ radarr_port }}:7878"
+    volumes:
+      - "{{ download_box_appdata }}/radarr:{{ container_config_path }}"
+      - "{{ data_root }}:{{ container_data_path }}"
+    restart: unless-stopped

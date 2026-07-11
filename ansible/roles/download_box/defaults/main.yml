@@ -1,0 +1,39 @@
+---
+# User-customizable variables for the download_box role.
+# Everything here can be overridden from the playbook or group/host vars.
+
+# Timezone for all containers (Eastern, not Central)
+download_box_timezone: "America/New_York"
+
+# Unprivileged LXC: host dirs are chowned 101000:101000 (100000 UID offset),
+# which maps to 1000:1000 inside the container. Apps must run as this UID/GID.
+download_box_puid: 1000
+download_box_pgid: 1000
+
+# Host path where per-service config data is stored
+download_box_appdata: /opt/download-box
+
+# Container-side path where the Proxmox /mnt/storage bind mount appears.
+# downloads/ and media/ are siblings under this single mount so Sonarr/Radarr
+# can hardlink on import instead of copying across filesystems.
+data_root: /data
+
+# Image tags, pinned to explicit versions (never :latest)
+gluetun_image_tag: "v3.39.1"
+qbittorrent_image_tag: "5.0.3"
+prowlarr_image_tag: "1.31.2"
+sonarr_image_tag: "4.0.10"
+radarr_image_tag: "5.16.0"
+
+# Host-published ports
+gluetun_qbittorrent_webui_port: 8080
+prowlarr_port: 9696
+sonarr_port: 8989
+radarr_port: 7878
+
+# ProtonVPN / gluetun settings
+vpn_service_provider: protonvpn
+vpn_type: wireguard
+vpn_server_countries: "Switzerland"
+# Media VLAN — traffic to this subnet is allowed to bypass the VPN tunnel
+vpn_firewall_outbound_subnets: "192.168.50.0/24"
